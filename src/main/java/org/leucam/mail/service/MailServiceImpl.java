@@ -39,7 +39,7 @@ public class MailServiceImpl implements MailService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(userDTO.getMail());
         message.setSubject(templateSubjectUserCancellation);
-        message.setText(String.format(templateUserCancellationMessage.getText(), userDTO.getSurname()));
+        message.setText(String.format(templateUserCancellationMessage.getText(), userDTO.getName()));
         javaMailSender.send(message);
     }
 }
