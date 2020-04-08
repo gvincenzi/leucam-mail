@@ -1,6 +1,7 @@
 package org.leucam.mail.listener;
 
 import org.leucam.mail.binding.MQBinding;
+import org.leucam.mail.dto.OrderDTO;
 import org.leucam.mail.dto.UserDTO;
 import org.leucam.mail.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,12 @@ public class MQListener {
     }
 
     @StreamListener(target = MQBinding.USER_CANCELLATION)
-    public void processOrderCancellation(UserDTO msg) {
+    public void processUserCancellation(UserDTO msg) {
         mailService.sendUserCancellationMessage(msg);
+    }
+
+    @StreamListener(target = MQBinding.USER_ORDER)
+    public void processOrder(OrderDTO msg) {
+        mailService.sendOrderMessage(msg);
     }
 }

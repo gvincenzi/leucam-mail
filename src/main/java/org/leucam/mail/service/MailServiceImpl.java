@@ -1,5 +1,6 @@
 package org.leucam.mail.service;
 
+import org.leucam.mail.dto.OrderDTO;
 import org.leucam.mail.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -7,6 +8,9 @@ import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+import java.text.NumberFormat;
 
 @Component
 public class MailServiceImpl implements MailService {
@@ -20,11 +24,20 @@ public class MailServiceImpl implements MailService {
     @Autowired
     SimpleMailMessage templateUserCancellationMessage;
 
+    @Autowired
+    SimpleMailMessage templateOrderMessage;
+
     @Value("${template.subject.registration}")
     public String templateSubjectRegistration;
 
     @Value("${template.subject.usercancellation}")
     public String templateSubjectUserCancellation;
+
+    @Value("${template.subject.order}")
+    public String templateSubjectOrder;
+
+    @Value("${template.paymentInternalCreditURL}")
+    public String templatePaymentInternalCreditURL;
 
     public void sendRegistrationMessage(UserDTO userDTO) throws MailException {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -40,6 +53,17 @@ public class MailServiceImpl implements MailService {
         message.setTo(userDTO.getMail());
         message.setSubject(templateSubjectUserCancellation);
         message.setText(String.format(templateUserCancellationMessage.getText(), userDTO.getName()));
+        javaMailSender.send(message);
+    }
+
+    public void sendOrderMessage(OrderDTO orderDTO) throws MailException {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(orderDTO.getUser().getMail());
+        message.setSubject(templateSubjectOrder);
+        String paymentInternalCreditURL = String.format(templatePaymentInternalCreditURL,orderDTO.getOrderId()).replaceAll(" ","%20");
+        /*String price = NumberFormat.getCurrencyInstance().format(new BigDecimal(orderDTO.getQuantity()).multiply(orderDTO.getProduct().getPricePerUnit()));*/
+        String price = NumberFormat.getCurrencyInstance().format(BigDecimal.ZERO);
+        message.setText(String.format(templateOrderMessage.getText(), orderDTO.getUser().getName(), orderDTO.toString(), price,paymentInternalCreditURL));
         javaMailSender.send(message);
     }
 }

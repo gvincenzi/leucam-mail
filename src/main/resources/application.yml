@@ -24,11 +24,14 @@ eureka:
       defaultZone: http://localhost:8880/eureka
 
 template:
-  registration: "Benvenuto nel sistema Leucam Print Manager\nLa tua iscrizione e' stata correttamente effettuata con i seguenti dati : \nCognome: %s\nNome: %s\nMail: %s\n\nGrazie\nGasSMan Administrator"
+  registration: "Benvenuto nel sistema Leucam Print Manager\nLa tua iscrizione e' stata correttamente effettuata con i seguenti dati : \nCognome: %s\nNome: %s\nMail: %s\n\nGrazie\nLeucam Print Manager Administrator"
   userCancellationMessage: "Ciao %s,\nIl tuo conto e' stato correttamente disattivato.\n\nGrazie\nLeucam Print Manager Administrator"
+  order: "Ciao %s,\nIl tuo ordine e' stato registrato con successo.\n\nDettaglio dell'ordine:\n%s\n\nTotale ordine : %s\n\nSe vuoi pagare con il tuo credito Leucam clicca sul link che segue:\n%s\n\nGrazie\nLeucam Print Manager Administrator"
+  paymentInternalCreditURL: "http://192.168.1.12:8881/gassman-payment-service/public/internal-credit/make/payment/%d"
   subject:
     registration: "Leucam - Registrazione nuovo utente"
     usercancellation: "Leucam - Cancellazione utente"
+    order: "Leucam - Conferma nuovo ordine"
 
 mail:
   host: smtp.yourserver.org

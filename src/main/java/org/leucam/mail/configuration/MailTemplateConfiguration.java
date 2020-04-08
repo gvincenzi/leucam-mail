@@ -18,6 +18,9 @@ public class MailTemplateConfiguration {
     @Value("${template.userCancellationMessage}")
     public String templateUserCancellationMessage;
 
+    @Value("${template.order}")
+    public String templateOrder;
+
     @Value("${mail.username}")
     public String mailUsername;
 
@@ -41,6 +44,13 @@ public class MailTemplateConfiguration {
     public SimpleMailMessage templateUserCancellationMessage() {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setText(templateUserCancellationMessage);
+        return message;
+    }
+
+    @Bean
+    public SimpleMailMessage templateOrderMessage() {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setText(templateOrder);
         return message;
     }
 
