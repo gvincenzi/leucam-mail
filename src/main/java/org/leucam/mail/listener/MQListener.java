@@ -2,6 +2,7 @@ package org.leucam.mail.listener;
 
 import org.leucam.mail.binding.MQBinding;
 import org.leucam.mail.dto.OrderDTO;
+import org.leucam.mail.dto.RechargeUserCreditLogDTO;
 import org.leucam.mail.dto.UserDTO;
 import org.leucam.mail.service.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,10 @@ public class MQListener {
     @StreamListener(target = MQBinding.USER_ORDER)
     public void processOrder(OrderDTO msg) {
         mailService.sendOrderMessage(msg);
+    }
+
+    @StreamListener(target = MQBinding.RECHARGE_USER_CREDIT)
+    public void processRechargeUserCredit(RechargeUserCreditLogDTO msg) {
+        mailService.sendRechargeUserCreditMessage(msg);
     }
 }

@@ -18,6 +18,9 @@ public class MailTemplateConfiguration {
     @Value("${template.userCancellationMessage}")
     public String templateUserCancellationMessage;
 
+    @Value("${template.creditrechargeConfirmation}")
+    public String templateCreditRechargeConfirmation;
+
     @Value("${template.order}")
     public String templateOrder;
 
@@ -44,6 +47,13 @@ public class MailTemplateConfiguration {
     public SimpleMailMessage templateUserCancellationMessage() {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setText(templateUserCancellationMessage);
+        return message;
+    }
+
+    @Bean
+    public SimpleMailMessage templateCreditRechargeConfirmationMessage() {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setText(templateCreditRechargeConfirmation);
         return message;
     }
 

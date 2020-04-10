@@ -10,9 +10,13 @@ spring:
     stream:
       bindings:
         userRegistrationChannel:
-          destination: gassman-user-registration
+          destination: leucam-user-registration
         userCancellationChannel:
-          destination: gassman-user-cancellation
+          destination: leucam-user-cancellation
+        userOrderChannel:
+          destination: leucam-order-registration
+        rechargeUserCreditChannel:
+          destination: leucam-recharge-user-credit
 
 eureka:
   instance:
@@ -28,10 +32,12 @@ template:
   userCancellationMessage: "Ciao %s,\nIl tuo conto e' stato correttamente disattivato.\n\nGrazie\nLeucam Print Manager Administrator"
   order: "Ciao %s,\nIl tuo ordine e' stato registrato con successo.\n\nDettaglio dell'ordine:\n%s\n\nTotale ordine : %s\n\nSe vuoi pagare con il tuo credito Leucam clicca sul link che segue:\n%s\n\nGrazie\nLeucam Print Manager Administrator"
   paymentInternalCreditURL: "http://192.168.1.12:8881/gassman-payment-service/public/internal-credit/make/payment/%d"
+  creditrechargeConfirmation: "Ciao %s,\nIl tuo credito e' stato aggiornato:\nCredito precedente  %s euro\nCredito attuale: %s euro\nData e ora dell'aggiornamento: %s\n\nGrazie\Leucam Print Manager Administrator"
   subject:
     registration: "Leucam - Registrazione nuovo utente"
     usercancellation: "Leucam - Cancellazione utente"
     order: "Leucam - Conferma nuovo ordine"
+    creditrecharge: "Leucam - Aggiornamento del credito"
 
 mail:
   host: smtp.yourserver.org

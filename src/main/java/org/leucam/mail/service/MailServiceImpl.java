@@ -1,6 +1,7 @@
 package org.leucam.mail.service;
 
 import org.leucam.mail.dto.OrderDTO;
+import org.leucam.mail.dto.RechargeUserCreditLogDTO;
 import org.leucam.mail.dto.UserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.time.format.DateTimeFormatter;
 
 @Component
 public class MailServiceImpl implements MailService {
@@ -27,6 +29,9 @@ public class MailServiceImpl implements MailService {
     @Autowired
     SimpleMailMessage templateOrderMessage;
 
+    @Autowired
+    SimpleMailMessage templateCreditRechargeConfirmationMessage;
+
     @Value("${template.subject.registration}")
     public String templateSubjectRegistration;
 
@@ -38,6 +43,9 @@ public class MailServiceImpl implements MailService {
 
     @Value("${template.paymentInternalCreditURL}")
     public String templatePaymentInternalCreditURL;
+
+    @Value("${template.subject.creditrecharge}")
+    public String templateSubjectCreditRecharge;
 
     public void sendRegistrationMessage(UserDTO userDTO) throws MailException {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -64,6 +72,15 @@ public class MailServiceImpl implements MailService {
         /*String price = NumberFormat.getCurrencyInstance().format(new BigDecimal(orderDTO.getQuantity()).multiply(orderDTO.getProduct().getPricePerUnit()));*/
         String price = NumberFormat.getCurrencyInstance().format(BigDecimal.ZERO);
         message.setText(String.format(templateOrderMessage.getText(), orderDTO.getUser().getName(), orderDTO.toString(), price,paymentInternalCreditURL));
+        javaMailSender.send(message);
+    }
+
+    @Override
+    public void sendRechargeUserCreditMessage(RechargeUserCreditLogDTO rechargeUserCreditLogDTO) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(rechargeUserCreditLogDTO.getUserCredit().getMail());
+        message.setSubject(templateSubjectCreditRecharge);
+        message.setText(String.format(templateCreditRechargeConfirmationMessage.getText(), rechargeUserCreditLogDTO.getUserCredit().getName(), NumberFormat.getCurrencyInstance().format(rechargeUserCreditLogDTO.getOldCredit()), NumberFormat.getCurrencyInstance().format(rechargeUserCreditLogDTO.getNewCredit()), rechargeUserCreditLogDTO.getRechargeDateTime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))));
         javaMailSender.send(message);
     }
 }
