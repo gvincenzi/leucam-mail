@@ -10,7 +10,6 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 
@@ -32,6 +31,9 @@ public class MailServiceImpl implements MailService {
     @Autowired
     SimpleMailMessage templateCreditRechargeConfirmationMessage;
 
+    @Autowired
+    SimpleMailMessage templatePaymentConfirmationMessage;
+
     @Value("${template.subject.registration}")
     public String templateSubjectRegistration;
 
@@ -41,11 +43,11 @@ public class MailServiceImpl implements MailService {
     @Value("${template.subject.order}")
     public String templateSubjectOrder;
 
-    @Value("${template.paymentInternalCreditURL}")
-    public String templatePaymentInternalCreditURL;
-
     @Value("${template.subject.creditrecharge}")
     public String templateSubjectCreditRecharge;
+
+    @Value("${template.subject.payment}")
+    public String templateSubjectPayment;
 
     public void sendRegistrationMessage(UserDTO userDTO) throws MailException {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -68,10 +70,7 @@ public class MailServiceImpl implements MailService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(orderDTO.getUser().getMail());
         message.setSubject(templateSubjectOrder);
-        String paymentInternalCreditURL = String.format(templatePaymentInternalCreditURL,orderDTO.getOrderId()).replaceAll(" ","%20");
-        /*String price = NumberFormat.getCurrencyInstance().format(new BigDecimal(orderDTO.getQuantity()).multiply(orderDTO.getProduct().getPricePerUnit()));*/
-        String price = NumberFormat.getCurrencyInstance().format(BigDecimal.ZERO);
-        message.setText(String.format(templateOrderMessage.getText(), orderDTO.getUser().getName(), orderDTO.toString(), price,paymentInternalCreditURL));
+        message.setText(String.format(templateOrderMessage.getText(), orderDTO.getUser().getName(), orderDTO.toString()));
         javaMailSender.send(message);
     }
 
@@ -81,6 +80,14 @@ public class MailServiceImpl implements MailService {
         message.setTo(rechargeUserCreditLogDTO.getUserCredit().getMail());
         message.setSubject(templateSubjectCreditRecharge);
         message.setText(String.format(templateCreditRechargeConfirmationMessage.getText(), rechargeUserCreditLogDTO.getUserCredit().getName(), NumberFormat.getCurrencyInstance().format(rechargeUserCreditLogDTO.getOldCredit()), NumberFormat.getCurrencyInstance().format(rechargeUserCreditLogDTO.getNewCredit()), rechargeUserCreditLogDTO.getRechargeDateTime().format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm"))));
+        javaMailSender.send(message);
+    }
+
+    public void sendOrderPaymentConfirmationMessage(OrderDTO orderDTO) throws MailException {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(orderDTO.getUser().getMail());
+        message.setSubject(templateSubjectPayment);
+        message.setText(String.format(templatePaymentConfirmationMessage.getText(), orderDTO.getUser().getName(), orderDTO.toString(), NumberFormat.getCurrencyInstance().format(orderDTO.getAmount())));
         javaMailSender.send(message);
     }
 }

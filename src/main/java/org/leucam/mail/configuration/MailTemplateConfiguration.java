@@ -24,6 +24,9 @@ public class MailTemplateConfiguration {
     @Value("${template.order}")
     public String templateOrder;
 
+    @Value("${template.paymentConfirmation}")
+    public String templatePaymentConfirmation;
+
     @Value("${mail.username}")
     public String mailUsername;
 
@@ -61,6 +64,13 @@ public class MailTemplateConfiguration {
     public SimpleMailMessage templateOrderMessage() {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setText(templateOrder);
+        return message;
+    }
+
+    @Bean
+    public SimpleMailMessage templatePaymentConfirmationMessage() {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setText(templatePaymentConfirmation);
         return message;
     }
 

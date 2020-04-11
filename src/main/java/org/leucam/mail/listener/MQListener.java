@@ -33,4 +33,9 @@ public class MQListener {
     public void processRechargeUserCredit(RechargeUserCreditLogDTO msg) {
         mailService.sendRechargeUserCreditMessage(msg);
     }
+
+    @StreamListener(target = MQBinding.ORDER_PAYMENT_CONFIRMATION)
+    public void processOrderPaymentConfirmation(OrderDTO msg) {
+        mailService.sendOrderPaymentConfirmationMessage(msg);
+    }
 }

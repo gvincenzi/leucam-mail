@@ -6,6 +6,8 @@ import org.leucam.mail.dto.type.ActionType;
 import org.leucam.mail.dto.type.ColorType;
 import org.leucam.mail.dto.type.FrontBackType;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 public class OrderDTO implements Comparable<OrderDTO>{
@@ -18,6 +20,7 @@ public class OrderDTO implements Comparable<OrderDTO>{
     private UserDTO user;
     private ProductDTO product;
     private Boolean paid = Boolean.FALSE;
+    private BigDecimal amount;
 
     @Override
     public int compareTo(OrderDTO orderDTO) {
