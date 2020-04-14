@@ -19,6 +19,8 @@ spring:
           destination: leucam-recharge-user-credit
         orderPaymentConfirmationChannel:
           destination: leucam-order-payment-confirmation
+        orderUpdateChannel:
+          destination: leucam-order-update
 
 eureka:
   instance:

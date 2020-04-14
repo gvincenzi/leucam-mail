@@ -1,6 +1,8 @@
 package org.leucam.mail.binding;
 
 import org.springframework.cloud.stream.annotation.Input;
+import org.springframework.cloud.stream.annotation.Output;
+import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.SubscribableChannel;
 
 public interface MQBinding {
@@ -9,6 +11,7 @@ public interface MQBinding {
     String USER_ORDER = "userOrderChannel";
     String RECHARGE_USER_CREDIT = "rechargeUserCreditChannel";
     String ORDER_PAYMENT_CONFIRMATION = "orderPaymentConfirmationChannel";
+    String ORDER_UPDATE = "orderUpdateChannel";
 
     @Input(USER_REGISTRATION)
     SubscribableChannel userRegistrationChannel();
@@ -18,6 +21,9 @@ public interface MQBinding {
 
     @Input(USER_ORDER)
     SubscribableChannel userOrderChannel();
+
+    @Input(ORDER_UPDATE)
+    MessageChannel orderUpdateChannel();
 
     @Input(RECHARGE_USER_CREDIT)
     SubscribableChannel rechargeUserCreditChannel();

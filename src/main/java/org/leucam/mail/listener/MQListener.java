@@ -29,6 +29,11 @@ public class MQListener {
         mailService.sendOrderMessage(msg);
     }
 
+    @StreamListener(target = MQBinding.ORDER_UPDATE)
+    public void processOrderUpdate(OrderDTO msg) {
+        mailService.sendOrderUpdateMessage(msg);
+    }
+
     @StreamListener(target = MQBinding.RECHARGE_USER_CREDIT)
     public void processRechargeUserCredit(RechargeUserCreditLogDTO msg) {
         mailService.sendRechargeUserCreditMessage(msg);

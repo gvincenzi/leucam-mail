@@ -29,6 +29,9 @@ public class MailServiceImpl implements MailService {
     SimpleMailMessage templateOrderMessage;
 
     @Autowired
+    SimpleMailMessage templateOrderUpdateMessage;
+
+    @Autowired
     SimpleMailMessage templateCreditRechargeConfirmationMessage;
 
     @Autowired
@@ -42,6 +45,9 @@ public class MailServiceImpl implements MailService {
 
     @Value("${template.subject.order}")
     public String templateSubjectOrder;
+
+    @Value("${template.subject.orderUpdate}")
+    public String templateSubjectOrderUpdate;
 
     @Value("${template.subject.creditrecharge}")
     public String templateSubjectCreditRecharge;
@@ -71,6 +77,14 @@ public class MailServiceImpl implements MailService {
         message.setTo(orderDTO.getUser().getMail());
         message.setSubject(templateSubjectOrder);
         message.setText(String.format(templateOrderMessage.getText(), orderDTO.getUser().getName(), orderDTO.toString()));
+        javaMailSender.send(message);
+    }
+
+    public void sendOrderUpdateMessage(OrderDTO orderDTO) throws MailException {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(orderDTO.getUser().getMail());
+        message.setSubject(templateSubjectOrderUpdate);
+        message.setText(String.format(templateOrderUpdateMessage.getText(), orderDTO.getUser().getName(), orderDTO.toString()));
         javaMailSender.send(message);
     }
 

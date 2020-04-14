@@ -7,6 +7,10 @@ import org.leucam.mail.dto.type.ColorType;
 import org.leucam.mail.dto.type.FrontBackType;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @Data
 @NoArgsConstructor
@@ -21,6 +25,8 @@ public class OrderDTO implements Comparable<OrderDTO>{
     private ProductDTO product;
     private Boolean paid = Boolean.FALSE;
     private BigDecimal amount;
+    private String orderPreparationDate;
+    private String orderDeliveryDate;
 
     @Override
     public int compareTo(OrderDTO orderDTO) {
@@ -30,12 +36,14 @@ public class OrderDTO implements Comparable<OrderDTO>{
     @Override
     public String toString() {
         return "\nID : " + orderId +
-                "\nProdotto : " + product +
+                "\nFile PDF : " + product +
                 "\nTipo di ordine=" + actionType.getLabel() +
                 "\nBianco e Nero o Colore=" + colorType.getLabel() +
                 "\nFronte/Retro=" + frontBackType.getLabel() +
                 "\nPagine per foglio=" + pagesPerSheet +
                 "\nNumero di copie=" + numberOfCopies +
-                (paid ? "" : "\n\n**Quest'ordine non è ancora stato pagato**");
+                (orderPreparationDate != null && orderDeliveryDate == null ? "\n\n**Ordine pronto per la consegna" : (orderDeliveryDate == null) ? "\n\n**Ordine in lavorazione**" : "") +
+                (orderDeliveryDate != null && orderPreparationDate != null ? "\n\n**Ordine consegnato il " + LocalDateTime.parse(orderDeliveryDate).format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm")) : (orderPreparationDate != null) ? "\n\n**Ordine non ancora consegnato**" : "") +
+                (paid ? "\n\n**Totale pagato con credito interno= " + NumberFormat.getCurrencyInstance().format(amount) : "\n\n**Quest'ordine non è ancora stato pagato**");
     }
 }
