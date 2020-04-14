@@ -37,6 +37,9 @@ public class MailServiceImpl implements MailService {
     @Autowired
     SimpleMailMessage templatePaymentConfirmationMessage;
 
+    @Autowired
+    SimpleMailMessage templateOrderCancellationMessage;
+
     @Value("${template.subject.registration}")
     public String templateSubjectRegistration;
 
@@ -54,6 +57,9 @@ public class MailServiceImpl implements MailService {
 
     @Value("${template.subject.payment}")
     public String templateSubjectPayment;
+
+    @Value("${template.subject.ordercancellation}")
+    public String templateSubjectOrderCancellation;
 
     public void sendRegistrationMessage(UserDTO userDTO) throws MailException {
         SimpleMailMessage message = new SimpleMailMessage();
@@ -102,6 +108,15 @@ public class MailServiceImpl implements MailService {
         message.setTo(orderDTO.getUser().getMail());
         message.setSubject(templateSubjectPayment);
         message.setText(String.format(templatePaymentConfirmationMessage.getText(), orderDTO.getUser().getName(), orderDTO.toString(), NumberFormat.getCurrencyInstance().format(orderDTO.getAmount())));
+        javaMailSender.send(message);
+    }
+
+    @Override
+    public void sendOrderCancellationMessage(OrderDTO orderDTO) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(orderDTO.getUser().getMail());
+        message.setSubject(templateSubjectOrderCancellation);
+        message.setText(String.format(templateOrderCancellationMessage.getText(), orderDTO.getUser().getName(), orderDTO.toString()));
         javaMailSender.send(message);
     }
 }

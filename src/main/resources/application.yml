@@ -21,6 +21,8 @@ spring:
           destination: leucam-order-payment-confirmation
         orderUpdateChannel:
           destination: leucam-order-update
+        orderCancellationChannel:
+          destination: leucam-order-cancellation
 
 eureka:
   instance:
@@ -37,12 +39,14 @@ template:
   order: "Ciao %s,\nIl tuo ordine e' stato registrato con successo.\n\nDettaglio dell'ordine:\n%s\n\nTotale ordine : %s\n\nSe vuoi pagare con il tuo credito interno vai sui dettagli dell'ordine tramite il LeucamBot su Telegram\n\nGrazie\nLeucam Print Manager Administrator"
   creditrechargeConfirmation: "Ciao %s,\nIl tuo credito e' stato aggiornato:\nCredito precedente: %s euro\nCredito attuale: %s euro\nData e ora dell'aggiornamento: %s\n\nGrazie\Leucam Print Manager Administrator"
   paymentConfirmation: "Ciao %s,\nIl tuo pagamento e' stato registrato con successo.\n\nDettaglio dell'ordine pagato:\n%s\n\nGrazie\nLeucam Print Manager Administrator"
+  orderCancellationMessage: "Ciao %s,\nUn tuo ordine e' stato correttamente annullato. Se non sei tu ad aver richiesto l'annullamento, contatta l'amministratore per avere maggiori informazioni.\n\nTrovi qui il dettaglio del tuo ordine annullato:\n%s\n\nSe avevi già pagato con il credito interno Leucam sarai rimborsato e riceverai una mail con l'aggiornamento del tuo credito residuo.\n\nGrazie\nLeucam Print Manager Administrator"
   subject:
     registration: "Leucam - Registrazione nuovo utente"
     usercancellation: "Leucam - Cancellazione utente"
     order: "Leucam - Conferma nuovo ordine"
     creditrecharge: "Leucam - Aggiornamento del credito"
     payment: "Leucam - Conferma pagamento"
+    ordercancellation: "Leucam - Cancellazione ordine"
 
 mail:
   host: smtp.yourserver.org

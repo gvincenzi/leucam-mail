@@ -12,6 +12,7 @@ public interface MQBinding {
     String RECHARGE_USER_CREDIT = "rechargeUserCreditChannel";
     String ORDER_PAYMENT_CONFIRMATION = "orderPaymentConfirmationChannel";
     String ORDER_UPDATE = "orderUpdateChannel";
+    String ORDER_CANCELLATION = "orderCancellationChannel";
 
     @Input(USER_REGISTRATION)
     SubscribableChannel userRegistrationChannel();
@@ -30,4 +31,7 @@ public interface MQBinding {
 
     @Input(ORDER_PAYMENT_CONFIRMATION)
     SubscribableChannel orderPaymentConfirmationChannel();
+
+    @Input(ORDER_CANCELLATION)
+    SubscribableChannel orderCancellationChannel();
 }

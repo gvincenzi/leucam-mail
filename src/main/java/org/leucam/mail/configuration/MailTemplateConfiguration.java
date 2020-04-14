@@ -30,6 +30,9 @@ public class MailTemplateConfiguration {
     @Value("${template.paymentConfirmation}")
     public String templatePaymentConfirmation;
 
+    @Value("${template.orderCancellationMessage}")
+    public String templateOrderCancellationMessage;
+
     @Value("${mail.username}")
     public String mailUsername;
 
@@ -81,6 +84,13 @@ public class MailTemplateConfiguration {
     public SimpleMailMessage templatePaymentConfirmationMessage() {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setText(templatePaymentConfirmation);
+        return message;
+    }
+
+    @Bean
+    public SimpleMailMessage templateOrderCancellationMessage() {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setText(templateOrderCancellationMessage);
         return message;
     }
 

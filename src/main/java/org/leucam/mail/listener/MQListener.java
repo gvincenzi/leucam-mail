@@ -43,4 +43,9 @@ public class MQListener {
     public void processOrderPaymentConfirmation(OrderDTO msg) {
         mailService.sendOrderPaymentConfirmationMessage(msg);
     }
+
+    @StreamListener(target = MQBinding.ORDER_CANCELLATION)
+    public void processOrderCancellation(OrderDTO msg) {
+        mailService.sendOrderCancellationMessage(msg);
+    }
 }

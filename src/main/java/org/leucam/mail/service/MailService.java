@@ -11,4 +11,5 @@ public interface MailService {
     void sendOrderUpdateMessage(OrderDTO orderDTO);
     void sendRechargeUserCreditMessage(RechargeUserCreditLogDTO rechargeUserCreditLogDTO);
     void sendOrderPaymentConfirmationMessage(OrderDTO msg);
+    void sendOrderCancellationMessage(OrderDTO msg);
 }
